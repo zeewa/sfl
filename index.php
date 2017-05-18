@@ -40,10 +40,22 @@ $servername = "localhost";
 $username = "jm";
 $password = "jeeva";
 $dbname = "mydb";
-$link = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", "$username", "$password");
+#$link = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", "$username", "$password");
 
-echo "Success: A proper connection to MySQL was made! The my_db database is great." . PHP_EOL;
+try {
+    $dbh = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", "$username", "$password");
 
+    echo "Success: A proper connection to MySQL was made! The my_db database is great." . PHP_EOL;
+    foreach($dbh->query('SELECT * from assets') as $row) {
+        print_r($row);
+    }
+    $dbh = null;
+} catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
+}
+
+?>
 
 </body>
 </html>
