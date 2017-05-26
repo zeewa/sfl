@@ -52,6 +52,11 @@ td.midd:hover{
 	
 }
 
+p    {
+	color: red;
+	text-align: Center;
+	}
+
 td.midd {
     padding: 0px;
     text-align: right;
@@ -74,4 +79,12 @@ td.star {
 	color: red;
 	font-weight: 50;
 	font-family: arial;
+}
+
+td.dis {
+    padding: 0px;
+    text-align: left;
+	color: grey;
+	font-weight: 10;
+	font-family: TimesNewRoman;
 }

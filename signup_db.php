@@ -13,6 +13,8 @@ session_start();
 	$email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 	$admin = filter_var($_POST['admin'], FILTER_SANITIZE_STRING);
 
+	/*** echo '+91'.$mobile . "<br>"; ***/
+	
     /*** now we can encrypt the password ***/
     $pas = password_hash( $pas, PASSWORD_DEFAULT);
 
@@ -58,15 +60,108 @@ session_start();
         /*** unset the form token session variable ***/
         unset( $_SESSION['form_token'] );
 
+	    try
+		{        
+			session_start();
+			$dbh2 = new PDO("mysql:host=$mysql_hostname;dbname=$mysql_dbname", $mysql_username, $mysql_password);
+			$retri = $dbh2->prepare("SELECT * FROM users WHERE uname = \"$uname\"");
+			$retri->execute();
+			
+			while($result = $retri->fetch(PDO::FETCH_ASSOC)){
+				
+			?>
+
+
+
+
+<fieldset>
+        <legend class="legend">User details</legend>
+  <table>
+    <tbody>
+      <tr>
+        <td class="dis">Username</td>
+        <td>:</td>
+        <td class="dis"><?php echo $result['uname'];?></td>
+      </tr>
+
+      <tr>
+        <td class="dis">Name:</td>
+        <td>:</td>
+        <td class="dis">
+		<?php 
+			echo $result['fname'] . " "; 
+			echo $result['lname']; ?>
+		</td>
+      </tr>
+	  
+	  <tr>
+        <td class="dis">Faname</td>
+        <td>:</td>
+        <td class="dis"><?php echo $result['faname'];?></td>
+      </tr>
+	  
+	  <tr>
+        <td class="dis">Location</td>
+        <td>:</td>
+        <td class="dis"><?php echo $result['loca'];?></td>
+      </tr>
+	  
+	  <tr>
+        <td class="dis">Contact No</td>
+        <td>:</td>
+        <td class="dis"><?php echo $result['mobile'];?></td>
+      </tr>
+	  
+	  <tr>
+        <td class="dis">Email</td>
+        <td>:</td>
+        <td class="dis"><?php echo $result['email'];?></td>
+      </tr>
+	  
+	  <tr>
+        <td class="dis">Administrator</td>
+        <td>:</td>
+        <td class="dis"><?php echo $result['admin'];?></td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+      </fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php			
+				
+
+			} 
+			unset( $_SESSION['form_token'] );
+		}
+		catch(Exception $e)
+		{
+			$result = 'Unable to retrive newly added user from the backend...But "';
+		}
+				
         /*** if all is done, say thanks ***/
-        $message = 'New user added'";
+        $message = 'New user added';
     }
     catch(Exception $e)
     {
         /*** check if the username already exists ***/
         if( $e->getCode() == 23000)
         {
-            $message = 'Username already exists' . "please <a href="user_reg.php">register</a> again";
+            $message = 'Username already exists';
         }
         else
         {
@@ -81,11 +176,19 @@ session_start();
  
 ?>
 
+
 <html>
 <head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title> New user registration status</title>
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+
 </head>
 <body>
-<p><?php echo $message; ?>
+<p><?php echo $message; ?></p>
+<p><?php echo $result; ?></p>
+
 </body>
 </html>
