@@ -94,7 +94,7 @@ else
                 /*** tell the user we are logged in ***/
                 $message = "You are now logged in as $phpro_username";
 ?>
-<a href="http://10.169.41.63/sfl/logout.php">Logout</a><br>
+<a href="http://10.169.41.63/sfl/login2.php">Logout</a><br>
 <?php
         }
 
@@ -106,6 +106,15 @@ else
         $message = 'We are unable to process your request. Please try again later"';
     }
 }
+
+//<?php
+function logoff_User() {
+	
+    echo "Logged out successfully";
+}
+
+logoff_User(); // call the function
+
 ?>
 
 <html>
